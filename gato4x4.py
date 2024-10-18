@@ -130,6 +130,7 @@ def generar_aleatorios_rellenar(tablero,valor):
 def iniciar_juego_gato():
 	tablero = crear_tablero()
 	while(True):
+		print("Turno de X")
 		fila,columna = solicitar_coordenadas()
 		print(fila,columna)
 		rellenar_casilla(tablero,fila,columna,"X")
@@ -141,6 +142,25 @@ def iniciar_juego_gato():
 		if es_ganador(tablero):
 			break
 
+def iniciar_juego_gato_2_jugadores(): 
+	tablero = crear_tablero()
+	while(True):
+		fila,columna = solicitar_coordenadas()
+		print(fila,columna)
+		rellenar_casilla(tablero,fila,columna,"X")
+		if es_ganador(tablero):
+			break
+		#fila,columna = solicitar_coordenadas()
+		#rellenar_casilla(tablero,fila,columna,"O")
+		
+		print("Turno de O")
+		fila,columna = solicitar_coordenadas()
+		print(fila,columna)
+		rellenar_casilla(tablero,fila,columna,"O")
+		if es_ganador(tablero):
+			break
 
 if __name__ == "__main__": 
-	iniciar_juego_gato()
+	#iniciar_juego_gato()
+	iniciar_juego_gato_2_jugadores()
+	
