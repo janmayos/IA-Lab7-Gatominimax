@@ -218,7 +218,7 @@ def minimax_alpha_beta(tablero, profundidad, es_maximizando, alpha, beta):
 						break  # Poda alpha
 		return min_eval
 
-def iniciar_juego_gato_jugador_IA(): 
+def iniciar_juego_gato_ia_ia(): 
 	tablero = crear_tablero()
 	while(True):
 		print("Turno de X")
@@ -239,7 +239,7 @@ def iniciar_juego_gato_jugador_IA():
 		if es_ganador(tablero):
 			break
 
-def iniciar_juego_gato_IA_IA(): 
+def iniciar_juego_gato_jugador_ia(): 
 	tablero = crear_tablero()
 	while(True):
 		print("Turno de X")
@@ -262,5 +262,6 @@ def iniciar_juego_gato_IA_IA():
 if __name__ == "__main__": 
 	#iniciar_juego_gato()
 	#iniciar_juego_gato_2_jugadores()
-	iniciar_juego_gato_jugador_IA()
+	#iniciar_juego_gato_jugador_IA()
 	#iniciar_juego_gato_jugador_IA
+	iniciar_juego_gato_ia_ia()
