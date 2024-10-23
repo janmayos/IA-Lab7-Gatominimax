@@ -1,8 +1,8 @@
 
 import random
-
+import time
 # Profundidad máxima para limitar el tiempo de búsqueda
-PROFUNDIDAD_MAXIMA = 4 
+PROFUNDIDAD_MAXIMA = 6
 
 def crear_tablero():
 	tablero = [[" ", " ", " "," "],
@@ -221,6 +221,28 @@ def minimax_alpha_beta(tablero, profundidad, es_maximizando, alpha, beta):
 def iniciar_juego_gato_jugador_IA(): 
 	tablero = crear_tablero()
 	while(True):
+		print("Turno de X")
+		fila,columna = mejor_movimiento(tablero,"X",True)
+		print(fila,columna)
+		rellenar_casilla(tablero,fila,columna,"X")
+		time.sleep(1)
+		if es_ganador(tablero):
+			break
+		#fila,columna = solicitar_coordenadas()
+		#rellenar_casilla(tablero,fila,columna,"O")
+		
+		print("Turno de O")
+		fila,columna = mejor_movimiento(tablero,"O",False)
+		print(fila,columna)
+		rellenar_casilla(tablero,fila,columna,"O")
+		time.sleep(1)
+		if es_ganador(tablero):
+			break
+
+def iniciar_juego_gato_IA_IA(): 
+	tablero = crear_tablero()
+	while(True):
+		print("Turno de X")
 		fila,columna = solicitar_coordenadas()
 		print(fila,columna)
 		rellenar_casilla(tablero,fila,columna,"X")
@@ -237,8 +259,8 @@ def iniciar_juego_gato_jugador_IA():
 			break
 
 
-
 if __name__ == "__main__": 
 	#iniciar_juego_gato()
 	#iniciar_juego_gato_2_jugadores()
 	iniciar_juego_gato_jugador_IA()
+	#iniciar_juego_gato_jugador_IA
