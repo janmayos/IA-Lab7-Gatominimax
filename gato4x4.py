@@ -1,6 +1,9 @@
 
 import random
 
+# Profundidad máxima para limitar el tiempo de búsqueda
+PROFUNDIDAD_MAXIMA = 4 
+
 def crear_tablero():
 	tablero = [[" ", " ", " "," "],
 			[" ", " ", " "," "], 
@@ -160,7 +163,82 @@ def iniciar_juego_gato_2_jugadores():
 		if es_ganador(tablero):
 			break
 
+def heuristica(tablero):
+	"""Evalúa el tablero para asignar un puntaje."""
+	if eval_tablero(tablero)[0] == "O":
+		return 10  # Gana la computadora
+	elif eval_tablero(tablero)[0] == "X":
+		return -10  # Gana el jugador
+	return 0  # Empate o tablero sin ganador
+
+def mejor_movimiento(tablero,simbolo,es_maximizando):
+    mejor_puntaje = -float('inf')
+    movimiento = None
+    for i in range(4):
+        for j in range(4):
+            if tablero[i][j] == " ":
+                tablero[i][j] = simbolo
+                puntaje = minimax_alpha_beta(tablero, 0, es_maximizando, -float('inf'), float('inf'))
+                tablero[i][j] = " "
+                if puntaje > mejor_puntaje:
+                    mejor_puntaje = puntaje
+                    movimiento = (i, j)
+    return movimiento
+
+def minimax_alpha_beta(tablero, profundidad, es_maximizando, alpha, beta):
+	#print_tablero(tablero)
+	ganador = eval_tablero(tablero)
+	if ganador == None or esta_lleno(tablero) or profundidad == PROFUNDIDAD_MAXIMA:
+		return heuristica(tablero)
+	
+	if es_maximizando:
+		max_eval = -float('inf')
+		for i in range(4):
+			for j in range(4):
+				if tablero[i][j] == " ":
+					tablero[i][j] = "O"
+					eval_alpha_beta = minimax_alpha_beta(tablero, profundidad + 1, False, alpha, beta)
+					tablero[i][j] = " "
+					max_eval = max(max_eval, eval_alpha_beta)
+					alpha = max(alpha, eval_alpha_beta)
+					if beta <= alpha:
+						break  # Poda beta
+		return max_eval
+	else:
+		min_eval = float('inf')
+		for i in range(4):
+			for j in range(4):
+				if tablero[i][j] == " ":
+					tablero[i][j] = "X"
+					eval_alpha_beta = minimax_alpha_beta(tablero, profundidad + 1, True, alpha, beta)
+					tablero[i][j] = " "
+					min_eval = min(min_eval, eval_alpha_beta)
+					beta = min(beta, eval_alpha_beta)
+					if beta <= alpha:
+						break  # Poda alpha
+		return min_eval
+
+def iniciar_juego_gato_jugador_IA(): 
+	tablero = crear_tablero()
+	while(True):
+		fila,columna = solicitar_coordenadas()
+		print(fila,columna)
+		rellenar_casilla(tablero,fila,columna,"X")
+		if es_ganador(tablero):
+			break
+		#fila,columna = solicitar_coordenadas()
+		#rellenar_casilla(tablero,fila,columna,"O")
+		
+		print("Turno de O")
+		fila,columna = mejor_movimiento(tablero,"O",False)
+		print(fila,columna)
+		rellenar_casilla(tablero,fila,columna,"O")
+		if es_ganador(tablero):
+			break
+
+
+
 if __name__ == "__main__": 
 	#iniciar_juego_gato()
-	iniciar_juego_gato_2_jugadores()
-	
+	#iniciar_juego_gato_2_jugadores()
+	iniciar_juego_gato_jugador_IA()
